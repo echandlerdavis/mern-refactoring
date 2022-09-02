@@ -23,13 +23,15 @@ type Auth{
     user: User
 
 type Query {
-    singleUser(_id:String!): User
+    singleUser(userId: String!): User
 }
 
 type Mutation {
-    createUser(_id: String! username: String! email:String! password: String!): User
-    saveBook(_id:String!): Book
-    deleteBook(_id:String!): Book
+    createUser(username: String! email:String! password: String!): Auth
+    login(email: String!, password: String!): Auth
+
+    saveBook(userId:String!): User
+    deleteBook(bookId:String!): Book
     #login?
 }
 }
