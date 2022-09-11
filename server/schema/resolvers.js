@@ -4,8 +4,11 @@ const { signToken } = require('../utils/auth')
 
 const resolvers = {
     Query: {
-        user: async () => {
-            return User.findOne({ _id: user._id });
+        singleUser: async (parent, args, context) => {
+            if(context.user){
+            return await User.findOne({ _id: context.user._id });}
+
+            // throw new AuthenticationError('You need to be logged in!');
         },
 
     },
@@ -32,7 +35,7 @@ const resolvers = {
             }
 
             const token = signToken(user);
-            return { token, profile };
+            return { token, user };
         },
 
         saveBook: async (parent, { user, body }) => {
@@ -48,10 +51,10 @@ const resolvers = {
             );
         },
         
-        deleteBook: async (parent, { user, params }) => {
-            return User.findOneAndUpdate(
-                { _id: user._id },
-                { $pull: { savedBooks: { bookId: params.bookId } } },
+        deleteBook: async (parent, { bookId }, context ) => {
+            return await User.findOneAndUpdate(
+                { _id: context.user._id },
+                { $pull: { savedBooks: { bookId: bookId } } },
                 { new: true }
             );
         },
