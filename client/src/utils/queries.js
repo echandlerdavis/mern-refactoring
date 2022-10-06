@@ -9,3 +9,12 @@ export const QUERY_SINGLE_USER = gql`
         }
     }
 `;
+
+export const QUERY_USERS = gql`
+  query users {
+    _id
+    username
+    email
+    password
+  }
+  `;

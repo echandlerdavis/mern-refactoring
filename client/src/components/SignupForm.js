@@ -26,17 +26,13 @@ const SignupForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
-    // check if form has everything (as per react-bootstrap docs)
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
     try {
       const response = await createUser({
-        variables: { ...userFormData}});
+        variables: { 
+          username: userFormData.username,
+          email: userFormData.email,
+          password: userFormData.password
+        }});
 
       if (!response.ok) {
         throw new Error('something went wrong!');
